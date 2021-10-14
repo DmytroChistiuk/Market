@@ -14,11 +14,13 @@ public class ProcessingController {
         switch (arrays.get(0)) {
             case "u":
                 if (arrays.get(3).equals("bid")) {
-                    bid.put(Integer.valueOf(arrays.get(1)), Integer.valueOf(arrays.get(2)));
+                    bid.put(Integer.parseInt(arrays.get(1)), Integer.parseInt(arrays.get(2)));
                     bestBid = bid.lastEntry().getKey();
+                    return null;
                 } else if (arrays.get(3).equals("ask")) {
                     ask.put(Integer.valueOf(arrays.get(1)), Integer.valueOf(arrays.get(2)));
                     bestAsk = ask.firstEntry().getKey();
+                    return null;
                 }
                 break;
             case "q":
@@ -31,13 +33,15 @@ public class ProcessingController {
                     sb.append(bestAsk);
                     sb.append(",");
                     sb.append(ask.getOrDefault(bestAsk, 0));
+                    return sb;
                 } else if (arrays.get(1).equals("size")) {
                     int size = Integer.parseInt(arrays.get(2));
-                    if (size <= bestBid) {
-                        sb.append(bid.getOrDefault(size, 0));
-                    } else if (size >= bestAsk) {
-                        sb.append(ask.getOrDefault(size, 0));
-                    }
+//                    if (size <= bestBid) {
+//                        sb.append(bid.getOrDefault(size, 0));
+//                    } else if (size >= bestAsk) {
+//                        sb.append(ask.getOrDefault(size, 0));
+//                    }
+                    sb.append(Math.abs(bid.getOrDefault(size, 0)-ask.getOrDefault(size, 0)));
                     return sb;
                 }
                 break;
@@ -51,6 +55,56 @@ public class ProcessingController {
         }
         return null;
     }
+
+//    private boolean checkAndAddAsk(List<String> arrays) {
+//        if (bid.getOrDefault(Integer.parseInt(arrays.get(1)), 0) > 0) {
+//            int size = bid.get(Integer.parseInt(arrays.get(1)));
+//            if (size > Integer.parseInt(arrays.get(2))) {
+//                size = bid.get(Integer.parseInt(arrays.get(1))) - Integer.parseInt(arrays.get(2));
+//                bid.remove(Integer.parseInt(arrays.get(1)));
+//                bid.put(Integer.parseInt(arrays.get(1)), size);
+//                return true;
+//            } else if (size < Integer.parseInt(arrays.get(2))) {
+//                bid.remove(Integer.parseInt(arrays.get(1)));
+//                ask.put(Integer.parseInt(arrays.get(1)) - size, Integer.parseInt(arrays.get(2)));
+//                bestAsk = ask.firstEntry().getKey();
+//                return true;
+//            } else if (size == Integer.parseInt(arrays.get(2))) {
+//                bid.remove(Integer.parseInt(arrays.get(1)));
+//                return true;
+//            }
+//        } else {
+//            ask.put(Integer.valueOf(arrays.get(1)), Integer.valueOf(arrays.get(2)));
+//            bestAsk = ask.firstEntry().getKey();
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    private boolean checkAndAddBid(List<String> arrays) {
+//        if (ask.getOrDefault(Integer.parseInt(arrays.get(1)), 0) > 0) {
+//            int size = ask.get(Integer.parseInt(arrays.get(1)));
+//            if (size > Integer.parseInt(arrays.get(2))) {
+//                size = ask.get(Integer.parseInt(arrays.get(1))) - Integer.parseInt(arrays.get(2));
+//                ask.remove(Integer.parseInt(arrays.get(1)));
+//                ask.put(Integer.parseInt(arrays.get(1)), size);
+//                return true;
+//            } else if (size < Integer.parseInt(arrays.get(2))) {
+//                ask.remove(Integer.parseInt(arrays.get(1)));
+//                bid.put(Integer.parseInt(arrays.get(1)) - size, Integer.parseInt(arrays.get(2)));
+//                bestBid = bid.lastEntry().getKey();
+//                return true;
+//            } else if (size == Integer.parseInt(arrays.get(2))) {
+//                ask.remove(Integer.parseInt(arrays.get(1)));
+//                return true;
+//            }
+//        } else {
+//            bid.put(Integer.parseInt(arrays.get(1)), Integer.parseInt(arrays.get(2)));
+//            bestBid = bid.lastEntry().getKey();
+//            return true;
+//        }
+//        return false;
+//    }
 
     private void buy(List<String> arrays) {
         int sharesCount = Integer.parseInt(arrays.get(2));

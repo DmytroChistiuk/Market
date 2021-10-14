@@ -16,16 +16,19 @@ public class InputReader {
     public static void main(String[] args) {
         ProcessingController pc = new ProcessingController();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            OutputWriter.init();
             while ((thisLine = br.readLine()) != null) {
                 arrays = Arrays.asList(thisLine.split(splitRegex));
                 sb = pc.requestProcessing(arrays);
                 if (sb != null) {
                     sb.append("\r\n");
-                    FileWriter.write("output.txt",sb);
+                    OutputWriter.write(sb);
                 }
             }
+            OutputWriter.close();
         } catch (Exception e) {
             e.printStackTrace();
+            OutputWriter.close();
         }
     }
 }
