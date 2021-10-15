@@ -6,7 +6,7 @@ class OutputWriter {
     private static final String fileName = "output.txt";
     private static BufferedWriter bw;
 
-    static boolean init(){
+    static boolean init() {
         try {
             bw = new BufferedWriter(new FileWriter(fileName));
             return true;
@@ -16,9 +16,9 @@ class OutputWriter {
         }
     }
 
-    static void write(StringBuilder messageToWrite) {
+    static void write(String messageToWrite) {
         try {
-            bw.write(String.valueOf(messageToWrite));
+            bw.write(messageToWrite);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,3 +32,4 @@ class OutputWriter {
         }
     }
 }
+
